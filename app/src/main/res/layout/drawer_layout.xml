@@ -1,78 +1,229 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/viewpager"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <com.termux.view.TerminalView
-            android:id="@+id/terminal_view"
+        <android.support.v4.widget.DrawerLayout
+            android:id="@+id/drawer_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"
-            android:focusableInTouchMode="true"
-            android:scrollbarThumbVertical="@drawable/terminal_scroll_shape"
-            android:scrollbars="vertical" />
+            android:layout_above="@+id/viewpager"
+            android:layout_alignParentTop="true">
 
-        <LinearLayout
-            android:id="@+id/left_drawer"
-            android:layout_width="240dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@android:color/white"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical">
-
-            <ListView
-                android:id="@+id/left_drawer_list"
+            <com.termux.view.TerminalView
+                android:id="@+id/terminal_view"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="top"
-                android:layout_weight="1"
-                android:choiceMode="singleChoice"
-                android:longClickable="true" />
+                android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:focusableInTouchMode="true"
+                android:scrollbarThumbVertical="@drawable/terminal_scroll_shape"
+                android:scrollbars="vertical" />
 
             <LinearLayout
-                style="?android:attr/buttonBarStyle"
+                android:id="@+id/left_drawer"
+                android:layout_width="240dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:background="@android:color/white"
+                android:choiceMode="singleChoice"
+                android:descendantFocusability="blocksDescendants"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dp"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/left_drawer_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="top"
+                    android:layout_weight="1"
+                    android:choiceMode="singleChoice"
+                    android:longClickable="true" />
+
+                <LinearLayout
+                    style="?android:attr/buttonBarStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/toggle_keyboard_button"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/toggle_soft_keyboard" />
+
+                    <Button
+                        android:id="@+id/new_session_button"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/new_session" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v4.widget.DrawerLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_alignParentBottom="true"
+            android:background="@android:drawable/screen_background_dark_transparent"
+            android:visibility="visible" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/toggle_keyboard_button"
-                    style="?android:attr/buttonBarButtonStyle"
+                <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/toggle_soft_keyboard" />
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/new_session_button"
-                    style="?android:attr/buttonBarButtonStyle"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/cdBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CD" />
+
+                        <Button
+                            android:id="@+id/uncdBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CD.." />
+
+                        <Button
+                            android:id="@+id/lsBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="LS" />
+
+                        <Button
+                            android:id="@+id/updateBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="UPDATE" />
+
+                        <Button
+                            android:id="@+id/gitInstallBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="GIT_INSTALL" />
+
+                        <Button
+                            android:id="@+id/storageBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="STORAGE" />
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+                <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/new_session" />
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/statusBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="STATUS" />
+
+                        <Button
+                            android:id="@+id/addAllBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ADD ALL" />
+
+                        <Button
+                            android:id="@+id/commitBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="COMMIT" />
+
+                        <Button
+                            android:id="@+id/pushBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PUSH" />
+
+                        <Button
+                            android:id="@+id/cloneBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CLONE" />
+
+                        <Button
+                            android:id="@+id/pullBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PULL" />
+
+                        <Button
+                            android:id="@+id/userEmailBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="USER EMAIL" />
+
+                        <Button
+                            android:id="@+id/userNameBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="USER NAME" />
+
+                        <Button
+                            android:id="@+id/userIDBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="USER ID" />
+
+                        <Button
+                            android:id="@+id/userPWDBut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="USER PASSWORD" />
+
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
             </LinearLayout>
-        </LinearLayout>
+        </ScrollView>
 
-    </android.support.v4.widget.DrawerLayout>
+    </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:background="@android:drawable/screen_background_dark_transparent"
-        android:layout_alignParentBottom="true" />
-</RelativeLayout>
+</LinearLayout>

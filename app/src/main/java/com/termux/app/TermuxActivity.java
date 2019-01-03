@@ -52,6 +52,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.termux.R;
+import com.termux.custom.TermuxHelper;
 import com.termux.terminal.EmulatorDebug;
 import com.termux.terminal.TerminalColors;
 import com.termux.terminal.TerminalSession;
@@ -79,6 +80,10 @@ import java.util.regex.Pattern;
  * <li>https://code.google.com/p/android/issues/detail?id=6426</li>
  * </ul>
  * about memory leaks.
+ * <p>
+ * apt update && apt upgrade
+ * apt install git
+ * termux-setup-storage
  */
 public final class TermuxActivity extends Activity implements ServiceConnection {
 
@@ -96,7 +101,9 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
 
     private static final String RELOAD_STYLE_ACTION = "com.termux.app.reload_style";
 
-    /** The main view of the activity showing the terminal. Initialized in onCreate(). */
+    /**
+     * The main view of the activity showing the terminal. Initialized in onCreate().
+     */
     @SuppressWarnings("NullableProblems")
     @NonNull
     TerminalView mTerminalView;
@@ -112,10 +119,14 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
      */
     TermuxService mTermService;
 
-    /** Initialized in {@link #onServiceConnected(ComponentName, IBinder)}. */
+    /**
+     * Initialized in {@link #onServiceConnected(ComponentName, IBinder)}.
+     */
     ArrayAdapter<TerminalSession> mListViewAdapter;
 
-    /** The last toast shown, used cancel current toast before showing new in {@link #showToast(String, boolean)}. */
+    /**
+     * The last toast shown, used cancel current toast before showing new in {@link #showToast(String, boolean)}.
+     */
     Toast mLastToast;
 
     /**
@@ -178,7 +189,9 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
         }
     }
 
-    /** For processes to access shared internal storage (/sdcard) we need this permission. */
+    /**
+     * For processes to access shared internal storage (/sdcard) we need this permission.
+     */
     @TargetApi(Build.VERSION_CODES.M)
     public boolean ensureStoragePermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -209,8 +222,8 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
 
         final ViewPager viewPager = findViewById(R.id.viewpager);
         if (mSettings.isShowExtraKeys()) viewPager.setVisibility(View.VISIBLE);
-        
-        
+
+
         ViewGroup.LayoutParams layoutParams = viewPager.getLayoutParams();
         layoutParams.height = layoutParams.height * mSettings.mExtraKeys.length;
         viewPager.setLayoutParams(layoutParams);
@@ -305,6 +318,8 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
         checkForFontAndColors();
 
         mBellSoundId = mBellSoundPool.load(this, R.raw.bell, 1);
+
+        new TermuxHelper(this).init();
     }
 
     void toggleShowExtraKeys() {
@@ -504,7 +519,7 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
     }
 
     @Nullable
-    TerminalSession getCurrentTermSession() {
+    public TerminalSession getCurrentTermSession() {
         return mTerminalView.getCurrentSession();
     }
 
@@ -553,6 +568,7 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
             mTermService.mSessionChangeCallback = null;
             mTermService = null;
         }
+        removeFinishedSession(getCurrentTermSession());
         unbindService(this);
     }
 
@@ -587,7 +603,9 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
         }
     }
 
-    /** Try switching to session and note about it, but do nothing if already displaying the session. */
+    /**
+     * Try switching to session and note about it, but do nothing if already displaying the session.
+     */
     void switchToSession(TerminalSession session) {
         if (mTerminalView.attachSession(session)) {
             noteSessionInfo();
@@ -634,7 +652,9 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
         menu.add(Menu.NONE, CONTEXTMENU_HELP_ID, Menu.NONE, R.string.help);
     }
 
-    /** Hook system menu to show context menu instead. */
+    /**
+     * Hook system menu to show context menu instead.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         mTerminalView.showContextMenu();
@@ -777,7 +797,9 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
             getCurrentTermSession().getEmulator().paste(paste.toString());
     }
 
-    /** The current session as stored or the last one if that does not exist. */
+    /**
+     * The current session as stored or the last one if that does not exist.
+     */
     public TerminalSession getStoredCurrentSessionOrLast() {
         TerminalSession stored = TermuxPreferences.getCurrentSession(this);
         if (stored != null) return stored;
@@ -785,7 +807,9 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
         return sessions.isEmpty() ? null : sessions.get(sessions.size() - 1);
     }
 
-    /** Show a toast and dismiss the last one if still visible. */
+    /**
+     * Show a toast and dismiss the last one if still visible.
+     */
     void showToast(String text, boolean longDuration) {
         if (mLastToast != null) mLastToast.cancel();
         mLastToast = Toast.makeText(TermuxActivity.this, text, longDuration ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);
