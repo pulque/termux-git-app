@@ -18,19 +18,19 @@ public class LocalDataRepository {
     private static volatile LocalDataRepository mInstance;
     private final SharedPreferences preferences;
 
-    public static LocalDataRepository getInstance(Context context) {
+    public static LocalDataRepository getInstance() {
         if (mInstance == null) {
             synchronized (LocalDataRepository.class) {
                 if (mInstance == null) {
-                    mInstance = new LocalDataRepository(context);
+                    mInstance = new LocalDataRepository();
                 }
             }
         }
         return mInstance;
     }
 
-    private LocalDataRepository(Context context) {
-        preferences = context.getSharedPreferences("com.lizheblogs.git.data", Context.MODE_PRIVATE);
+    private LocalDataRepository() {
+        preferences = SubApplication.getInstance().getSharedPreferences("com.lizheblogs.git.data", Context.MODE_PRIVATE);
     }
 
     /**

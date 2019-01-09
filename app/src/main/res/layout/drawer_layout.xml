@@ -80,11 +80,13 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/commandList"
+        android:background="#44ffffff"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:visibility="visible"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        android:layout_above="@+id/viewpager"
         tools:listitem="@layout/command_item_view" />
 
 </RelativeLayout>

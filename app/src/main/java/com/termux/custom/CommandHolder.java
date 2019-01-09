@@ -3,7 +3,8 @@ package com.termux.custom;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import com.termux.databinding.CommandItemViewBinding ;
+
+import com.termux.databinding.CommandItemViewBinding;
 
 /**
  * Created by LiZhe on 2018-10-31.

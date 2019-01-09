@@ -19,11 +19,19 @@
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text='@{command.title}'
-            android:textColor="#aaffffff"
+            android:text='@{command.command}'
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:text="功能名称" />
+
+        <EditText
+            android:id="@+id/valueET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='@{command.value}'
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

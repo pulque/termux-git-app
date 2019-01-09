@@ -1,16 +1,14 @@
 package com.termux.custom;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 
-import com.termux.BR;
+import com.android.databinding.library.baseAdapters.BR;
 import com.termux.R;
 import com.termux.app.TermuxActivity;
+import com.termux.custom.utils.DialogUtils;
 import com.termux.terminal.TerminalSession;
 
 import java.io.File;
@@ -29,125 +27,75 @@ import java.util.ArrayList;
  */
 public class TermuxHelper implements View.OnClickListener {
 
-    private String git_address = "https://github.com/pulque/pulque.github.io.git";
-    private String user_name = "Norman";
-    private String user_email = "pulqueli@gmail.com";
-    private String user_git_name = "lizhe052@126.com";
-    private String user_git_password = "";
-
     private TermuxActivity activity;
-
-    private EditText editText = null;
-
-    private android.widget.Button cdBut;
-    private android.widget.Button uncdBut;
-    private android.widget.Button lsBut;
-    private android.widget.Button updateBut;
-    private android.widget.Button gitInstallBut;
-    private android.widget.Button storageBut;
-    private android.widget.Button statusBut;
-    private android.widget.Button addAllBut;
-    private android.widget.Button commitBut;
-    private android.widget.Button pushBut;
-    private android.widget.Button cloneBut;
-    private android.widget.Button pullBut;
-    private android.widget.Button userEmailBut;
-    private android.widget.Button userNameBut;
-    private android.widget.Button userIDBut;
-    private android.widget.Button userPWDBut;
-    private RecyclerView commandList;
 
     public TermuxHelper(TermuxActivity activity) {
         this.activity = activity;
     }
 
     public void init() {
-        commandList = activity.findViewById(R.id.commandList);
-
+        RecyclerView commandList = activity.findViewById(R.id.commandList);
+        int id = 0;
         ArrayList<Command> commands = new ArrayList<>();
-        commands.add(new Command(1, "cd", "cd ", "", ""));
+        commands.add(new Command(++id, "y", "y\n"));
+        commands.add(new Command(++id, "cd", "cd git_path\n", "git_path"));
+        commands.add(new Command(++id, "uncd", "cd ..\n"));
+        commands.add(new Command(++id, "ls", "ls\n"));
+        commands.add(new Command(++id, "update apt", "apt update && apt upgrade\n"));
+        commands.add(new Command(++id, "gitInstall", "apt install git\n"));
+        commands.add(new Command(++id, "storage", session -> {
+            File storageDirectory = Environment.getExternalStorageDirectory();
+            File file = new File(storageDirectory.getAbsolutePath() + "/github");
+            if (!file.exists()) {
+                if (!file.mkdirs()) {
+                    session.write("创建文件夹失败！");
+                    return;
+                }
+            }
+            session.write("termux-setup-storage\n");
+            session.write("ln -s /data/data/com.termux/files/home/storage/shared/github\n");
+            session.write("cd github\n");
+        }));
+        commands.add(new Command(++id, "git clone", "git clone git_address\n", "git_address"));
+        commands.add(new Command(++id, "git.user.email", "git config user.email \"user_email\"\n",
+            "user_email"));
+        commands.add(new Command(++id, "git.user.name", "git config user.name \"user_name\"\n",
+            "user_name"));
+        commands.add(new Command(++id, "git pull", "git pull\n"));
+        commands.add(new Command(++id, "git status", "git status\n"));
+        commands.add(new Command(++id, "git add --all", "git add --all\n"));
+        commands.add(new Command(++id, "git commit", "git commit -a -m \"annotation\"\n",
+            "annotation", "Default annotation."));
+        commands.add(new Command(++id, "git push", "git push\n"));
+        commands.add(new Command(++id, "user_git_name", "user_git_name\n", "user_git_name"));
+        commands.add(new Command(++id, "user_git_pwd", "user_git_pwd\n", "user_git_pwd"));
 
-        CommandAdapter<Command> titleAdapter = new CommandAdapter<>(R.layout.command_item_view, BR.command, commands);
-        titleAdapter.setListener(this);
+        CommandAdapter<Command> adapter = new CommandAdapter<>(R.layout.command_item_view, BR.command, commands);
+        adapter.setListener(this);
+        commandList.setAdapter(adapter);
     }
 
     @Override
     public void onClick(View v) {
-//        TerminalSession session = activity.getCurrentTermSession();
-//        if (session == null) {
-//            return;
-//        }
-//        switch (v.getId()) {
-//            case R.id.cdBut:
-//                session.write("cd ");
-//                break;
-//            case R.id.uncdBut:
-//                session.write("cd ..\n");
-//                break;
-//            case R.id.lsBut:
-//                session.write("ls\n");
-//                break;
-//            case R.id.updateBut:
-//                session.write("apt update && apt upgrade\n");
-//                break;
-//            case R.id.gitInstallBut:
-//                session.write("apt install git\n");
-//                break;
-//            case R.id.storageBut:
-//                File storageDirectory = Environment.getExternalStorageDirectory();
-//                File file = new File(storageDirectory.getAbsolutePath() + "/github");
-//                if (!file.exists()) {
-//                    if (!file.mkdirs()) {
-//                        session.write("创建文件夹失败！");
-//                        break;
-//                    }
-//                }
-//                session.write("termux-setup-storage\n");
-//                session.write("ln -s /data/data/com.termux/files/home/storage/shared/github\n");
-//                session.write("cd github\n");
-//                break;
-//            case R.id.statusBut:
-//                session.write("git status\n");
-//                break;
-//            case R.id.addAllBut:
-//                session.write("git add --all\n");
-//                break;
-//            case R.id.commitBut:
-//                editText = showInputDialog(activity, "输入注释", (dialog, which) -> {
-//                    String string = editText.getText().toString();
-//                    session.write("git commit -a -m \"" + string + "\"\n");
-//                });
-//                break;
-//            case R.id.pushBut:
-//                session.write("git push\n");
-//                break;
-//            case R.id.cloneBut:
-//                session.write("git clone " + git_address + "\n");
-//                break;
-//            case R.id.pullBut:
-//                session.write("git pull\n");
-//                break;
-//            case R.id.userEmailBut:
-//                session.write("git config user.email \"" + user_email + "\"\n");
-//                break;
-//            case R.id.userNameBut:
-//                session.write("git config user.name \"" + user_name + "\"\n");
-//                break;
-//            case R.id.userIDBut:
-//                session.write(user_git_name + "\n");
-//                break;
-//            case R.id.userPWDBut:
-//                session.write(user_git_password + "\n");
-//                break;
-//
-//        }
+        Command command = null;
+        Object tag = v.getTag();
+        if (tag instanceof Command) {
+            command = (Command) tag;
+        }
+        if (command == null) {
+            return;
+        }
+        TerminalSession session = activity.getCurrentTermSession();
+        if (session == null) {
+            return;
+        }
+        if (!TextUtils.isEmpty(command.getKey())) {
+            DialogUtils.showInputDialog(activity, session, command);
+        } else if (command.getExecute() != null) {
+            command.getExecute().execute(session);
+        } else {
+            session.write(command.getCommand());
+        }
     }
 
-    private EditText showInputDialog(Activity activity, String title, DialogInterface.OnClickListener listener) {
-        EditText editText = new EditText(activity);
-        AlertDialog.Builder inputDialog = new AlertDialog.Builder(activity);
-        inputDialog.setTitle(title).setView(editText);
-        inputDialog.setPositiveButton("确定", listener).show();
-        return editText;
-    }
 }

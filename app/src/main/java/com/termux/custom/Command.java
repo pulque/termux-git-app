@@ -1,5 +1,9 @@
 package com.termux.custom;
 
+import android.text.TextUtils;
+
+import com.termux.custom.utils.ExecuteInterface;
+
 /**
  * Created by LiZhe on 2019-01-08.
  * com.termux.custom
@@ -17,6 +21,25 @@ public class Command {
         this.value = value;
     }
 
+    public Command(int id, String title, String command, String key) {
+        this.id = id;
+        this.title = title;
+        this.command = command;
+        this.key = key;
+    }
+
+    public Command(int id, String title, String command) {
+        this.id = id;
+        this.title = title;
+        this.command = command;
+    }
+
+    public Command(int id, String title, ExecuteInterface execute) {
+        this.id = id;
+        this.title = title;
+        this.execute = execute;
+    }
+
     private int id;
     //名称，用于按钮显示
     private String title;
@@ -26,6 +49,21 @@ public class Command {
     private String key;
     //命令中的可以替换的值
     private String value;
+    //自定义操作
+    private ExecuteInterface execute;
+
+    public String getValue() {
+        if (TextUtils.isEmpty(value)) {
+            value = LocalDataRepository.getInstance().getString(key);
+        }
+        return value;
+    }
+
+    public void setValue(String value) {
+        LocalDataRepository.getInstance().setString(key, value);
+        this.value = value;
+    }
+
 
     public int getId() {
         return id;
@@ -59,11 +97,11 @@ public class Command {
         this.key = key;
     }
 
-    public String getValue() {
-        return value;
+    public ExecuteInterface getExecute() {
+        return execute;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setExecute(ExecuteInterface execute) {
+        this.execute = execute;
     }
 }
