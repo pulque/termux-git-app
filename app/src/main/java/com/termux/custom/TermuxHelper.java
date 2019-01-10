@@ -37,6 +37,7 @@ public class TermuxHelper implements View.OnClickListener {
         RecyclerView commandList = activity.findViewById(R.id.commandList);
         int id = 0;
         ArrayList<Command> commands = new ArrayList<>();
+        commands.add(new Command(++id, "编辑文件",""));
         commands.add(new Command(++id, "y", "y\n"));
         commands.add(new Command(++id, "cd", "cd git_path\n", "git_path"));
         commands.add(new Command(++id, "uncd", "cd ..\n"));
@@ -83,6 +84,10 @@ public class TermuxHelper implements View.OnClickListener {
             command = (Command) tag;
         }
         if (command == null) {
+            return;
+        }
+        if (command.getId() == 1){
+
             return;
         }
         TerminalSession session = activity.getCurrentTermSession();

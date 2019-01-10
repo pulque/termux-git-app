@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string name="application_name">Termux</string>
+   <string name="application_name">Lizheblogs-git</string>
    <string name="shared_user_label">Termux user</string>
    <string name="new_session">New session</string>
    <string name="new_session_failsafe">Failsafe</string>
@@ -47,5 +47,9 @@
   <string name="file_received_title">Save file in ~/downloads/</string>
   <string name="file_received_edit_button">Edit</string>
   <string name="file_received_open_folder_button">Open folder</string>
+    <string name="select">SELECT</string>
+    <string name="file_path">File path</string>
+    <string name="content">Content</string>
+    <string name="save">SAVE</string>
 
 </resources>
