@@ -51,5 +51,8 @@
     <string name="file_path">File path</string>
     <string name="content">Content</string>
     <string name="save">SAVE</string>
+    <string name="done">DONE</string>
+    <string name="up"><![CDATA[<--]]></string>
+    <string name="down"><![CDATA[-->]]></string>
 
 </resources>

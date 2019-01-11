@@ -5,7 +5,7 @@ import android.app.AlertDialog;
 import android.view.LayoutInflater;
 
 import com.android.databinding.library.baseAdapters.BR;
-import com.termux.custom.Command;
+import com.termux.custom.bean.Command;
 import com.termux.databinding.DialogInputBinding ;
 import com.termux.terminal.TerminalSession;
 

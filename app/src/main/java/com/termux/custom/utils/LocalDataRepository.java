@@ -1,7 +1,9 @@
-package com.termux.custom;
+package com.termux.custom.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.termux.custom.SubApplication;
 
 /**
  * Created by LiZhe on 2018-01-03.

@@ -1,7 +1,8 @@
-package com.termux.custom;
+package com.termux.custom.bean;
 
 import android.text.TextUtils;
 
+import com.termux.custom.utils.LocalDataRepository;
 import com.termux.custom.utils.ExecuteInterface;
 
 /**

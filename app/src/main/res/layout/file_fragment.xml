@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/addressET"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/file_path"
+            android:padding="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <Button
+            android:id="@+id/upBut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/up"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addressET"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <Button
+            android:id="@+id/doneBut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/done"
+            app:layout_constraintLeft_toRightOf="@+id/upBut"
+            app:layout_constraintRight_toLeftOf="@+id/downBut"
+            app:layout_constraintTop_toBottomOf="@+id/addressET" />
+
+        <Button
+            android:id="@+id/downBut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/down"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addressET"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/downBut"
+            app:layout_constraintVertical_bias="1.0"
+            tools:listitem="@layout/file_item_view" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

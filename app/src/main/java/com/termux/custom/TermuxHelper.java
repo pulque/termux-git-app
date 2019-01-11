@@ -1,5 +1,6 @@
 package com.termux.custom;
 
+import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -8,6 +9,9 @@ import android.view.View;
 import com.android.databinding.library.baseAdapters.BR;
 import com.termux.R;
 import com.termux.app.TermuxActivity;
+import com.termux.custom.base.BaseAdapter;
+import com.termux.custom.bean.Command;
+import com.termux.custom.edit.EditActivity;
 import com.termux.custom.utils.DialogUtils;
 import com.termux.terminal.TerminalSession;
 
@@ -18,6 +22,7 @@ import java.util.ArrayList;
  * Created by LiZhe on 2019-01-03.
  * com.termux.custom
  * <p>
+ *     使用列表的层级结构展示文件目录结构
  * <p>
  * apt update && apt upgrade
  * apt install git
@@ -37,7 +42,7 @@ public class TermuxHelper implements View.OnClickListener {
         RecyclerView commandList = activity.findViewById(R.id.commandList);
         int id = 0;
         ArrayList<Command> commands = new ArrayList<>();
-        commands.add(new Command(++id, "编辑文件",""));
+        commands.add(new Command(++id, "编辑文件", ""));
         commands.add(new Command(++id, "y", "y\n"));
         commands.add(new Command(++id, "cd", "cd git_path\n", "git_path"));
         commands.add(new Command(++id, "uncd", "cd ..\n"));
@@ -71,7 +76,7 @@ public class TermuxHelper implements View.OnClickListener {
         commands.add(new Command(++id, "user_git_name", "user_git_name\n", "user_git_name"));
         commands.add(new Command(++id, "user_git_pwd", "user_git_pwd\n", "user_git_pwd"));
 
-        CommandAdapter<Command> adapter = new CommandAdapter<>(R.layout.command_item_view, BR.command, commands);
+        BaseAdapter<Command> adapter = new BaseAdapter<>(R.layout.command_item_view, BR.command, commands);
         adapter.setListener(this);
         commandList.setAdapter(adapter);
     }
@@ -86,8 +91,8 @@ public class TermuxHelper implements View.OnClickListener {
         if (command == null) {
             return;
         }
-        if (command.getId() == 1){
-
+        if (command.getId() == 1) {
+            activity.startActivity(new Intent(activity, EditActivity.class));
             return;
         }
         TerminalSession session = activity.getCurrentTermSession();

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.termux.R;
-import com.termux.custom.edit.EditFragment;
 
 /**
  * Created by LiZhe on 2019-01-10.
@@ -18,7 +17,7 @@ public class FileActivity extends AppCompatActivity {
         setContentView(R.layout.container_activity);
 
         if (savedInstanceState == null) {
-            EditFragment fragment = EditFragment.newInstance();
+            FileFragment fragment = FileFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
                 .commitNow();

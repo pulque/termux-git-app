@@ -1,4 +1,4 @@
-package com.termux.custom;
+package com.termux.custom.base;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,13 +12,13 @@ import java.util.List;
  * Created by LiZhe on 2018-10-31.
  * com.lizheblogs.databinding.ui.list
  */
-public class CommandAdapter<T> extends RecyclerView.Adapter<CommandHolder> {
+public class BaseAdapter<T> extends RecyclerView.Adapter<BaseHolder> {
     private List<T> listData;
     private View.OnClickListener listener;
     private int layoutId;
     private int variableId;
 
-    public CommandAdapter(int layoutId, int variableId, List<T> listData) {
+    public BaseAdapter(int layoutId, int variableId, List<T> listData) {
         this.listData = listData;
         this.variableId = variableId;
         this.layoutId = layoutId;
@@ -26,13 +26,13 @@ public class CommandAdapter<T> extends RecyclerView.Adapter<CommandHolder> {
 
     @NonNull
     @Override
-    public CommandHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new CommandHolder(LayoutInflater.from(parent.getContext())
+    public BaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new BaseHolder(LayoutInflater.from(parent.getContext())
             .inflate(layoutId, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CommandHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final BaseHolder holder, int position) {
         T item = listData.get(position);
         holder.itemView.setOnClickListener(listener);
         holder.itemView.setTag(item);
@@ -46,6 +46,10 @@ public class CommandAdapter<T> extends RecyclerView.Adapter<CommandHolder> {
 
     public void setListener(View.OnClickListener listener) {
         this.listener = listener;
+    }
+
+    public void setListData(List<T> listData) {
+        this.listData = listData;
     }
 }
 
