@@ -99,12 +99,12 @@
             android:name=".custom.edit.EditActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".custom.file.FileActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
+            android:windowSoftInputMode="adjustResize" />
 
         <activity-alias
             android:name=".HomeActivity"

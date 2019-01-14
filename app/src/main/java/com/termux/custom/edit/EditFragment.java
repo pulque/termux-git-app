@@ -9,10 +9,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.termux.R;
 import com.termux.custom.file.FileActivity;
 import com.termux.custom.file.FileFragment;
+import com.termux.custom.utils.LocalDataRepository;
 import com.termux.custom.utils.StringUtils;
 import com.termux.databinding.EditFragmentBinding;
 
@@ -25,7 +27,8 @@ import java.io.File;
  */
 public class EditFragment extends Fragment implements View.OnClickListener {
 
-    public final int FOR_PATH_RESULT = 1000;
+    public static final int FOR_PATH_RESULT = 1000;
+    private final String FUNCTION_EDIT_PATH = "FUNCTION_EDIT_PATH";
 
     private EditFragmentBinding binding;
 
@@ -46,18 +49,29 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         binding.selectBut.setOnClickListener(this);
         binding.saveBut.setOnClickListener(this);
-
-
+        String cachePath = getCachePath();
+        initPath(cachePath);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.selectBut:
-                startActivityForResult(new Intent(getContext(), FileActivity.class), FOR_PATH_RESULT);
+                Intent intent = new Intent(getContext(), FileActivity.class);
+                intent.putExtra(FileActivity.TAG_PATH_FILE, binding.addressET.getText().toString());
+                startActivityForResult(intent, FOR_PATH_RESULT);
                 break;
             case R.id.saveBut:
-
+                String address = binding.addressET.getText().toString();
+                File file = new File(address);
+                if (!file.exists() || !file.isFile()) {
+                    Toast.makeText(getContext(), "Path is error!", Toast.LENGTH_LONG).show();
+                } else {
+                    String string = binding.textET.getText().toString();
+                    StringUtils.writeStringToFile(string, file.getParentFile().getAbsolutePath(), file.getName());
+                    Toast.makeText(getContext(), "DONE!", Toast.LENGTH_SHORT).show();
+                    savePath(address);
+                }
                 break;
         }
     }
@@ -71,14 +85,30 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         switch (requestCode) {
             case FOR_PATH_RESULT:
                 String string = data.getStringExtra(FileFragment.PATH_SELECTED);
-                binding.addressET.setText(string);
-                if (!TextUtils.isEmpty(string)){
-                    File file = new File(string);
-                    if (file.isFile()){
-                        binding.textET.setText(StringUtils.readToString(file));
-                    }
-                }
+                initPath(string);
+                savePath(string);
                 break;
         }
     }
+
+    private void initPath(String string) {
+        binding.addressET.setText(string);
+        if (!TextUtils.isEmpty(string)) {
+            File file = new File(string);
+            if (file.exists() && file.isFile()) {
+                binding.textET.setText(StringUtils.readToString(file));
+            }else {
+                binding.textET.setText("");
+            }
+        }
+    }
+
+    private void savePath(String path) {
+        LocalDataRepository.getInstance().setString(FUNCTION_EDIT_PATH, path);
+    }
+
+    private String getCachePath() {
+        return LocalDataRepository.getInstance().getString(FUNCTION_EDIT_PATH);
+    }
+
 }

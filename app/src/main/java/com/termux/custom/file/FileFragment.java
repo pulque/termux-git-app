@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +34,14 @@ public class FileFragment extends Fragment implements View.OnClickListener {
     private FileFragmentBinding binding;
     private ArrayList<FilePath> filePaths;
     private FileAdapter fileAdapter;
+    private String defaultPath;
 
     public static FileFragment newInstance() {
         return new FileFragment();
+    }
+
+    public void setDefaultPath(String defaultPath) {
+        this.defaultPath = defaultPath;
     }
 
     @Nullable
@@ -71,9 +77,36 @@ public class FileFragment extends Fragment implements View.OnClickListener {
             }
             notifyDataSetChanged();
         });
-
         binding.recyclerView.setAdapter(fileAdapter);
 
+        initPath();
+    }
+
+    private void initPath() {
+        File root = Environment.getExternalStorageDirectory();
+        String absolutePath = root.getAbsolutePath();
+        if (!TextUtils.isEmpty(defaultPath) && defaultPath.contains(absolutePath)) {
+            String path = defaultPath.replace(absolutePath, "");
+            String[] paths = path.split("/");
+            for (String string : paths) {
+                if (!TextUtils.isEmpty(string)) {
+                    int size = filePaths.size();
+                    if (size > 0) {
+                        FilePath filePath = filePaths.get(size - 1);
+                        ArrayList<FilePath> files = filePath.files;
+                        for (FilePath fileChild : files) {
+                            String name = fileChild.file.getName();
+                            if (string.equalsIgnoreCase(name)) {
+                                fileChild.isSelect = true;
+                                addNewFiles(fileChild.file);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -151,6 +184,5 @@ public class FileFragment extends Fragment implements View.OnClickListener {
             }
         }
         fileAdapter.notifyDataSetChanged();
-
     }
 }
