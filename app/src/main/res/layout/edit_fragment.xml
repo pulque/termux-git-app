@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -8,31 +9,27 @@
         android:background="@android:color/white"
         android:padding="5dp">
 
-        <Button
-            android:id="@+id/saveBut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save"
-            app:layout_constraintBottom_toBottomOf="@+id/addressET"
-            app:layout_constraintTop_toTopOf="@+id/addressET" />
-
         <EditText
             android:id="@+id/addressET"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/file_path"
-            app:layout_constraintLeft_toRightOf="@+id/saveBut"
-            app:layout_constraintRight_toLeftOf="@+id/selectBut"
-            android:padding="5dp"/>
-
-        <Button
-            android:id="@+id/selectBut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/select"
-            app:layout_constraintBottom_toBottomOf="@+id/addressET"
+            android:lines="1"
+            android:singleLine="true"
+            android:padding="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/addressET" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/commandList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/addressET"
+            tools:listitem="@layout/edit_item_view" />
 
         <EditText
             android:id="@+id/textET"
@@ -44,7 +41,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addressET" />
+            app:layout_constraintTop_toBottomOf="@+id/commandList" />
 
     </android.support.constraint.ConstraintLayout>
 

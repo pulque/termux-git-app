@@ -12,17 +12,17 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <TextView
+        <Button
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:text='@{command.title}'
-            android:textColor="#aaffffff"
-            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@android:color/black"
+            android:clickable="false"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="功能名称" />
 
